@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import useFetch from "../useFetch.js";
 
 function Shop() {
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  const url = "https://fortnite-api.theapinetwork.com/upcoming/get";
+  const raw = useFetch(url, []);
+  let items = [];
+  if (raw.data) items = raw.data.splice(0, 10);
 
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
-
-  const fetchItems = async () => {
-    const data = await fetch(
-      "https://fortnite-api.theapinetwork.com/upcoming/get"
-    );
-    const items = await data.json();
-    setItems(items.data.slice(0, 10));
-  };
   return (
     <div>
       <h2 className="page-heading">Welcome to shop</h2>
